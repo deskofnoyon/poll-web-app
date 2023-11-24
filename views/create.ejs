@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Poll | Poll App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                container: {
+                    center: true,
+                    screens: {
+                        sm: '600px',
+                        md: '728px',
+                        lg: '984px',
+                        xl: '1240px',
+                        '2xl': '1280px',
+                    },
+                    padding: {
+                        DEFAULT: "1rem",
+                        sm: "2rem",
+                        md: "4rem",
+                        lg: "5rem",
+                        "xl": "5rem",
+                        '2xl': "5.5rem"
+                    },
+                },
+                extend: {
+                    colors: {
+                        primary: '#00B4D8',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .btn {
+                @apply bg-primary/80 text-white px-4 py-2 font-semibold rounded hover:bg-primary active:scale-[0.98] duration-200 transition-all cursor-pointer inline-block;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <main>
+
+        <!-- Navigation Bar -->
+        <nav class="bg-primary py-4">
+            <div class="container mx-auto flex items-center justify-between">
+                <a href="/" class="text-white text-xl font-bold">Poll App</a>
+                <ul class="inline-flex items-center space-x-3">
+                    <li>
+                        <a class="text-white hover:underline" href="/polls">All Polls</a>
+                    </li>
+                    <li>
+                        <a class="text-white hover:underline" href="/polls/create">Create</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div>
+            <div class="container">
+                <div class="w-full max-w-xl lg:mx-auto my-4 lg:p-4 lg:shadow-lg rounded-md">
+                    <h1 class="text-2xl font-bold mb-4 text-center">Create a New Poll</h1>
+
+                    <!-- Poll Form -->
+                    <form action="/polls/create" method="POST" class="space-y-4">
+                        <!-- Poll Title -->
+                        <div>
+                            <label for="title" class="block text-sm font-medium text-gray-600">Poll Title</label>
+                            <input type="text" id="title" name="title" class="mt-1 p-2 w-full border rounded-md"
+                                placeholder="Enter your poll title" required>
+                        </div>
+
+                        <!-- Poll Description -->
+                        <div>
+                            <label for="description" class="block text-sm font-medium text-gray-600">Poll
+                                Description</label>
+                            <textarea id="description" name="description"
+                                class="mt-1 p-2 w-full border rounded-md resize-none"
+                                placeholder="Enter a brief description of your poll" rows="3" required></textarea>
+                        </div>
+
+
+                        <div class="space-y-3" id="options">
+                            <p class="text-lg font-semibold mb-2">Opitons</p>
+                            <div>
+                                <input type="text" name="options" class="p-2 w-full border rounded-md"
+                                    placeholder="Option 1" required>
+                            </div>
+                            <div>
+                                <input type="text" name="options" class="p-2 w-full border rounded-md"
+                                    placeholder="Option 2" required>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <button id="addOption" class="btn bg-gray-500 hover:bg-gray-600 mt-2">Add Option</button>
+
+                            <input type="submit" value="Create Poll" class="btn">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <script>
+        const options = document.getElementById("options")
+        const addOption = document.getElementById("addOption")
+        let currentOptionNumber = 3;
+
+        addOption.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const option = createNewOption();
+            options.appendChild(option)
+        })
+
+        function createNewOption() {
+            const div = document.createElement("div")
+            const input = document.createElement("input")
+            input.type = "text"
+            input.name = 'options'
+            input.placeholder = 'Option ' + currentOptionNumber++
+            input.classList = "p-2 w-full border rounded-md"
+
+            div.appendChild(input)
+            return div;
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Poll | Poll App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                container: {
+                    center: true,
+                    screens: {
+                        sm: '600px',
+                        md: '728px',
+                        lg: '984px',
+                        xl: '1240px',
+                        '2xl': '1280px',
+                    },
+                    padding: {
+                        DEFAULT: "1rem",
+                        sm: "2rem",
+                        md: "4rem",
+                        lg: "5rem",
+                        "xl": "5rem",
+                        '2xl': "5.5rem"
+                    },
+                },
+                extend: {
+                    colors: {
+                        primary: '#00B4D8',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .btn {
+                @apply bg-primary/80 text-white px-4 py-2 font-semibold rounded hover:bg-primary active:scale-[0.98] duration-200 transition-all cursor-pointer inline-block;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <main>
+
+        <!-- Navigation Bar -->
+        <nav class="bg-primary py-4">
+            <div class="container mx-auto flex items-center justify-between">
+                <a href="/" class="text-white text-xl font-bold">Poll App</a>
+                <ul class="inline-flex items-center space-x-3">
+                    <li>
+                        <a class="text-white hover:underline" href="/polls">All Polls</a>
+                    </li>
+                    <li>
+                        <a class="text-white hover:underline" href="/polls/create">Create</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="w-full lg:max-w-2xl lg:shadow-md mx-auto my-10 lg:p-5 rounded space-y-4">
+                <div>
+                    <h2 class="text-2xl font-bold mb-2">Title: <%= poll.title %>
+                    </h2>
+                    <p>Description: <%= poll.description %>
+                    </p>
+                </div>
+                <div class="">
+                    <h2 class="text-lg font-bold mb-3">Result:</h2>
+                    <div class="">
+                        <% for(let r of result ) { %>
+                            <div class="bg-white p-3 rounded-sm flex items-center space-x-3 border">
+                                <div class="flex space-x-3">
+                                    <p class="font-semibold">
+                                        <%= r.name %>
+                                    </p>
+                                    <span>--></span>
+                                </div>
+                                <div class="flex space-x-1">
+                                    <p>
+                                        <%= r.percentage.toFixed(2) %>
+                                    </p>
+                                    <span>%</span>
+                                </div>
+                            </div>
+                            <% } %>
+                    </div>
+                </div>
+                <div>
+                    <h2 class="text-lg mb-3">What is your opinions:</h2>
+                    <form class="space-y-3" action="/polls/<%= poll._id %>" method="POST">
+                        <% for(let option of poll.options) { %>
+                            <div class="bg-white rounded-sm flex items-center space-x-2">
+                                <div>
+                                    <input class="p-3 inline-block ml-3" type="radio" name="option" id="<%= option._id %>" value="<%= option._id %>">
+                                </div>
+                                <label class="text-lg w-full p-3" for="<%= option._id %>">
+                                    <%= option.name %>
+                                </label>
+                            </div>
+                            <% } %>
+                                <input class="btn" type="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</body>
+
+
+</html>
